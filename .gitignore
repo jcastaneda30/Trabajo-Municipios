@@ -1,2 +1,6 @@
 /.quarto/
-.Rproj.user
+.Rhistory
+.RData
+.Rproj.user/
+proyenc_files/
+proyenc.html

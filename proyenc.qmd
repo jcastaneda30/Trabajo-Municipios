@@ -1,10 +1,29 @@
 ---
-title: "proyenc"
+title: "Mapas del Departamento del Cauca"
+author: 
+  - "Juan Camilo Gutiérrez Martínez CC 1033486192"
+  - "Maria Fernanda Calle Agudelo CC 1033428469"
+  - "Jaider Castañeda Villa CC 1001015442"
+date: last-modified
+format: 
+  html:
+    toc: true
+editor: visual
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-## Quarto
+# Introducción
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# Objetivos
+
+# Metodología y Procedimientos
+
+# Mapas
+
+## Mapa del departamento
 
 ```{r}
 library(sf)
@@ -13,7 +32,7 @@ library(dplyr)
 library(stringi)              # Cada vez que lo uses
 
 # Cargar archivo GeoJSON
-geo_data <- st_read("municipios_GeoJSON.geojson")
+geo_data <- st_read("municipios_GeoJSON.geojson", quiet = TRUE)
 
 # Convertir columna dpt a texto
 geo_data$dpt <- as.character(geo_data$dpt)
@@ -37,6 +56,8 @@ ggplot(geo_cauca) +
 
 
 ```
+
+## Distribución de la pobreza
 
 ```{r}
 library(readxl)
@@ -64,6 +85,9 @@ ggplot(geo_json_with_nbi) +
   labs(title = "Índice de Necesidades Básicas Insatisfechas (NBI) - Cauca")
 
 ```
+
+## Índice del desempeño fiscal
+
 ```{r}
 idf_data <- read_excel("ResultadosIDF_2023.xlsx", sheet = "Municipios 2023")
 idf_data_cauca <- idf_data %>% filter(`Departamento` == "CAUCA")
@@ -94,3 +118,10 @@ ggplot(geo_json_with_idf) +
 
 ```
 
+## Distancia a la capital 
+
+# Conclusiones
+
+# Recomendaciones
+
+# Cibergrafía
