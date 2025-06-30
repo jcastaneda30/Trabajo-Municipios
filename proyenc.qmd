@@ -7,5 +7,47 @@ title: "proyenc"
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
 ```{r}
-1 + 1
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Cargar archivo GeoJSON
+geo_data <- st_read("municipios_GeoJSON.geojson")
+
+# Convertir columna dpt a texto
+geo_data$dpt <- as.character(geo_data$dpt)
+
+# Filtrar solo Cauca
+geo_cauca <- geo_data %>% filter(dpt == "CAUCA")
+geo_cauca <- geo_cauca %>% filter(!is.na(name))
+geo_cauca$name <- stri_trans_general(geo_cauca$name, "Latin-ASCII")
+
+municipios <- unique(geo_cauca$name)
+colores_personalizados <- setNames(
+  rainbow(length(municipios)),  # o cualquier otro vector de colores
+  municipios
+)
+
+ggplot(geo_cauca) +
+  geom_sf(aes(fill = name), color = "black", size = 0.2) +
+  scale_fill_manual(values = colores_personalizados) +
+  theme_minimal() +
+  labs(title = "Municipios del Cauca con colores asignados manualmente")
+
+
+```
+
+```{r}
+library(readxl)
+library(dplyr)
+
+nbi_data <- read_excel("CNPV-2018-NBI.xlsx", sheet = "Municipios")
+nbi_data_cauca <- nbi_data %>% filter(`Nombre Departamento` == "CAUCA")
+
+nbi_reducido <- nbi_data_cauca %>%
+  select(`Nombre Municipio`, `Prop de Personas en NBI (%)...5`)
+
+geo_reduc <- geo_cauca %>%
+            select(name)
+
 ```
