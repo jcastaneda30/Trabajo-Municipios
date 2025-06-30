@@ -64,3 +64,33 @@ ggplot(geo_json_with_nbi) +
   labs(title = "Índice de Necesidades Básicas Insatisfechas (NBI) - Cauca")
 
 ```
+```{r}
+idf_data <- read_excel("ResultadosIDF_2023.xlsx", sheet = "Municipios 2023")
+idf_data_cauca <- idf_data %>% filter(`Departamento` == "CAUCA")
+
+idf_reducido <- idf_data_cauca %>%
+  select(`Código`,`Municipio`, `Nuevo IDF`,`Rango`)
+
+idf_reducido$`Municipio` <- stri_trans_general(idf_reducido$`Municipio`, "Latin-ASCII")
+
+geo_json_with_idf <- left_join(geo_cauca, idf_reducido, by = c("id" = "Código"))
+
+ggplot(geo_json_with_idf) +
+  geom_sf(aes(fill = Rango), color = "black", size = 0.2) +
+  scale_fill_manual(
+    values = c(
+      "1. Deterioro (<40)" = "red",
+      "2. Riesgo (>=40 y <60)" = "orange",
+      "3. Vulnerable (>=60 y <70)" = "yellow",
+      "4. Solvente (>=70 y <80)" = "lightgreen",
+      "5. Sostenible (>=80)" = "green" 
+    ),
+    name = "Clasificación Municipio"
+  ) +
+  theme_minimal() +
+  labs(title = "Índice Desempeño Fiscal (IDF) 2023- Cauca")
+
+
+
+```
+
