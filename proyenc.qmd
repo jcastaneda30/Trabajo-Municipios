@@ -10,6 +10,7 @@ Quarto enables you to weave together content and executable code into a finished
 library(sf)
 library(ggplot2)
 library(dplyr)
+library(stringi)              # Cada vez que lo uses
 
 # Cargar archivo GeoJSON
 geo_data <- st_read("municipios_GeoJSON.geojson")
@@ -40,6 +41,7 @@ ggplot(geo_cauca) +
 ```{r}
 library(readxl)
 library(dplyr)
+library(viridis)  # opcional, para una paleta perceptualmente uniforme
 
 nbi_data <- read_excel("CNPV-2018-NBI.xlsx", sheet = "Municipios")
 nbi_data_cauca <- nbi_data %>% filter(`Nombre Departamento` == "CAUCA")
@@ -47,7 +49,18 @@ nbi_data_cauca <- nbi_data %>% filter(`Nombre Departamento` == "CAUCA")
 nbi_reducido <- nbi_data_cauca %>%
   select(`Nombre Municipio`, `Prop de Personas en NBI (%)...5`)
 
-geo_reduc <- geo_cauca %>%
-            select(name)
+nbi_reducido$`Nombre Municipio` <- stri_trans_general(nbi_reducido$`Nombre Municipio`, "Latin-ASCII")
+
+geo_json_with_nbi <- left_join(geo_cauca, nbi_reducido, by = c("name" = "Nombre Municipio"))
+
+
+ggplot(geo_json_with_nbi) +
+  geom_sf(aes(fill = `Prop de Personas en NBI (%)...5`), color = "black", size = 0.2) +
+  scale_fill_gradientn(
+    colours = c("green", "yellow", "orange", "red"),
+    name = "NBI (%)"
+  ) +
+  theme_minimal() +
+  labs(title = "Índice de Necesidades Básicas Insatisfechas (NBI) - Cauca")
 
 ```
