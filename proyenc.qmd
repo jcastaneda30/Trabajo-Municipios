@@ -52,7 +52,8 @@ ggplot(geo_cauca) +
   geom_sf(aes(fill = name), color = "black", size = 0.2) +
   scale_fill_manual(values = colores_personalizados) +
   theme_minimal() +
-  labs(title = "Municipios del Cauca con colores asignados manualmente")
+  labs(title = "Municipios del departamento del Cauca") +
+  theme(legend.position = "none")   # <- oculta la leyenda
 
 
 ```
@@ -120,8 +121,44 @@ ggplot(geo_json_with_idf) +
 
 ## Distancia a la capital 
 
+Para la elaboración de este mapa se recopilaron las distancias por carretera entre los distintos municipios y la capital (Popayán). Los datos se obtuvieron a través del sitio web <https://colombia.mejoresrutas.com/tabla-de-distancias/co-cauca/>, el cual permite consultar la distancia vial entre dos municipios de Colombia. Utilizando la lista de municipios del departamento del Cauca previamente recopilada, se construyó una tabla que muestra la distancia por carretera desde cada uno de ellos hacia Popayán. Esta información fue descargada como un archivo en formato `.xls`, el cual será utilizado como fuente de datos para la elaboración del mapa.
+
+Primero vamos a realizar un análisis de los datos:
+
+El mapa presentado muestra el departamento del Cauca, donde cada municipio está coloreado de acuerdo con su distancia a la ciudad de Popayán. Se utiliza una escala de colores que va del azul (municipios más cercanos) al rojo (municipios más lejanos), permitiendo visualizar de forma clara y comparativa qué tan alejado se encuentra cada municipio respecto a la capital.
+
+```{r}
+#Leer el archivo que contiene las distancias a la capital
+dist_data_cauca <- read_excel("co-cauca.xls")
+
+#Normalizar y poner en mayúscula los nombres de los municipios
+dist_data_cauca$Municipio <- toupper(stri_trans_general(dist_data_cauca$Municipio, "Latin-ASCII"))
+
+#Unir los datos espaciales con las distancias
+geo_json_with_dist <- left_join(geo_cauca, dist_data_cauca, by = c("name" = "Municipio"))
+
+#Se usa ggplot() para crear un mapa temático a partir del objeto geo_json_with_dist, que contiene geometría y datos de distancia. Con geom_sf() se dibuja los municipios y se les asigna un color según la columna Distancia a Popayán (Km); scale_fill_gradientn() define los colores de la escala, mientras theme_minimal() y labs() ajustan la estética y el título del gráfico.
+
+ggplot(geo_json_with_dist) +
+  geom_sf(aes(fill = `Distancia a Popayán (Km)`), color = "black", size = 0.2) +
+  scale_fill_gradientn(
+    colours = c("blue", "lightblue", "yellow", "red"),
+    name = "Distancia a Popayán (Km)"
+  ) +
+  theme_minimal() +
+  labs(title = "Distancia de los municipios del Cauca a Popayán") +
+  theme(legend.position = "right")
+
+```
+
+Se observa que los municipios más cercanos, ubicados en el centro del departamento, se representan en tonos azules, mientras que aquellos más alejados, principalmente al sur y en zonas periféricas, presentan colores que van del amarillo al rojo. Esto indica una mayor lejanía respecto a la capital. El patrón de color evidencia que la mayor concentración de municipios se encuentra en un rango intermedio de distancia, mientras que solo algunos municipios, como el ubicado al extremo sur (Piamonte), superan los 300 kilómetros.
+
 # Conclusiones
 
 # Recomendaciones
 
 # Cibergrafía
+
+OpenAI. (2025). ChatGPT \[Modelo de lenguaje AI\]. Recuperado de <https://chat.openai.com>
+
+Mejores Rutas. Calculadora de distancia de conducción en Cauca. Recuperado de <https://colombia.mejoresrutas.com/tabla-de-distancias/co-cauca/>
