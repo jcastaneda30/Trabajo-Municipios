@@ -119,7 +119,7 @@ ggplot(geo_json_with_idf) +
 
 ```
 
-## Distancia a la capital 
+## Distancia a la capital
 
 Para la elaboración de este mapa se recopilaron las distancias por carretera entre los distintos municipios y la capital (Popayán). Los datos se obtuvieron a través del sitio web <https://colombia.mejoresrutas.com/tabla-de-distancias/co-cauca/>, el cual permite consultar la distancia vial entre dos municipios de Colombia. Utilizando la lista de municipios del departamento del Cauca previamente recopilada, se construyó una tabla que muestra la distancia por carretera desde cada uno de ellos hacia Popayán. Esta información fue descargada como un archivo en formato `.xls`, el cual será utilizado como fuente de datos para la elaboración del mapa.
 
