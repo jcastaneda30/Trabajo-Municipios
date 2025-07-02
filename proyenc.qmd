@@ -19,6 +19,14 @@ execute:
 
 # Objetivos
 
+-   **Identificación de brechas territoriales:** Detectar diferencias en las condiciones de vida entre municipios del Cauca según el NBI y su ubicación respecto a la capital.
+
+-   **Análisis de patrones espaciales de pobreza:** Explorar la posible relación entre la lejanía a Popayán y altos niveles de pobreza.
+
+-   **Evaluación del acceso equitativo a servicios:** Analizar desigualdades en el acceso a salud, educación e infraestructura según la distancia.
+
+-   **Visualización de desigualdad mediante mapas:** Representar gráficamente las condiciones socioeconómicas y geográficas del departamento.
+
 # Metodología y Procedimientos
 
 # Mapas
@@ -26,6 +34,9 @@ execute:
 ## Mapa del departamento
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 library(sf)
 library(ggplot2)
 library(dplyr)
@@ -58,9 +69,16 @@ ggplot(geo_cauca) +
 
 ```
 
-## Distribución de la pobreza
+En total, el departamento del Cauca está conformado por **42 municipios**, cada uno representado en un color distinto en el mapa.
+
+## Índice de Necesidades Básicas Insatisfechas (NBI)
+
+El mapa muestra el Índice de Necesidades Básicas Insatisfechas (NBI) en los municipios del departamento del Cauca, reflejando los niveles de pobreza estructural en la región. A través de una escala de colores, se evidencia una fuerte desigualdad territorial: mientras algunos municipios tienen un NBI inferior al 20% (color verde), otros superan el 60% (color rojo), indicando condiciones críticas de pobreza.
 
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 library(readxl)
 library(dplyr)
 library(viridis)  # opcional, para una paleta perceptualmente uniforme
@@ -86,6 +104,10 @@ ggplot(geo_json_with_nbi) +
   labs(title = "Índice de Necesidades Básicas Insatisfechas (NBI) - Cauca")
 
 ```
+
+Las zonas más afectadas se ubican principalmente en el noroccidente del departamento, donde una alta proporción de la población carece de acceso adecuado a servicios básicos, vivienda y educación. En contraste, los municipios del centro y oriente muestran mejores condiciones de vida y mayor cobertura de necesidades básicas.
+
+Este contraste territorial destaca la urgencia de intervenir en los municipios más vulnerables mediante políticas públicas focalizadas. El NBI es una herramienta clave para identificar brechas sociales y orientar la inversión hacia las zonas con mayores carencias.
 
 ## Índice del desempeño fiscal
 
@@ -162,3 +184,5 @@ Se observa que los municipios más cercanos, ubicados en el centro del departame
 OpenAI. (2025). ChatGPT \[Modelo de lenguaje AI\]. Recuperado de <https://chat.openai.com>
 
 Mejores Rutas. Calculadora de distancia de conducción en Cauca. Recuperado de <https://colombia.mejoresrutas.com/tabla-de-distancias/co-cauca/>
+
+Necesidades Básicas Insatisfechas (NBI)(2018). Recuperado de <https://www.dane.gov.co/index.php/estadisticas-por-tema/pobreza-y-condiciones-de-vida/necesidades-basicas-insatisfechas-nbi>
