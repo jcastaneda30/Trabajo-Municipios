@@ -7,6 +7,7 @@ author:
 date: last-modified
 format: 
   html:
+    self-contained: true
     toc: true
 editor: visual
 execute:
@@ -207,8 +208,6 @@ Para la elaboración de este mapa se recopilaron las distancias por carretera en
 
 Primero vamos a realizar un análisis de los datos:
 
-El mapa presentado muestra el departamento del Cauca, donde cada municipio está coloreado de acuerdo con su distancia a la ciudad de Popayán. Se utiliza una escala de colores que va del azul (municipios más cercanos) al rojo (municipios más lejanos), permitiendo visualizar de forma clara y comparativa qué tan alejado se encuentra cada municipio respecto a la capital.
-
 ```{r}
 #Leer el archivo que contiene las distancias a la capital
 dist_data_cauca <- read_excel("co-cauca.xls")
@@ -216,6 +215,35 @@ dist_data_cauca <- read_excel("co-cauca.xls")
 #Normalizar y poner en mayúscula los nombres de los municipios
 dist_data_cauca$Municipio <- toupper(stri_trans_general(dist_data_cauca$Municipio, "Latin-ASCII"))
 
+# Excluir Popayán
+distancias_filtradas <- dist_data_cauca %>% filter(Municipio != "POPAYAN")
+
+# Calcular el municipio más y menos lejano
+
+municipio_mas_lejano <- distancias_filtradas$Municipio[which.max(distancias_filtradas$`Distancia a Popayán (Km)`)]
+municipio_mas_cercano <- distancias_filtradas$Municipio[which.min(distancias_filtradas$`Distancia a Popayán (Km)`)]
+
+summary(distancias_filtradas)
+cat("Municipio más cercano a Popayán (sin contar Popayán):", municipio_mas_cercano)
+cat("Municipio más lejano a Popayán:", municipio_mas_lejano)
+```
+
+El municipio más cercano a Popayán, excluyendo la capital, es Timbío, mientras que el más lejano es Piamonte, con una distancia de 341 km. La distancia promedio entre los municipios del Cauca y Popayán es de aproximadamente 109 km, con la mayoría de municipios ubicados entre 56 km y 136 km, lo que evidencia una distribución territorial relativamente amplia dentro del departamento.
+
+Ahora en gráfica:
+
+```{r}
+ggplot(dist_data_cauca, aes(x = `Distancia a Popayán (Km)`)) +
+  geom_histogram(binwidth = 20, fill = "skyblue", color = "black") +
+  labs(title = "Distribución de distancias a Popayán",
+       x = "Distancia (Km)",
+       y = "Número de municipios") +
+  theme_minimal()
+```
+
+El mapa presentado muestra el departamento del Cauca, donde cada municipio está coloreado de acuerdo con su distancia a la ciudad de Popayán. Se utiliza una escala de colores que va del azul (municipios más cercanos) al rojo (municipios más lejanos), permitiendo visualizar de forma clara y comparativa qué tan alejado se encuentra cada municipio respecto a la capital.
+
+```{r}
 #Unir los datos espaciales con las distancias
 geo_json_with_dist <- left_join(geo_cauca, dist_data_cauca, by = c("name" = "Municipio"))
 
@@ -237,15 +265,23 @@ Se observa que los municipios más cercanos, ubicados en el centro del departame
 
 # Conclusiones
 
--   Se puede ver que varios de los municipios alejados de la capital sufren cierto grado de pobreza o un alto NBI
+- Se puede ver que varios de los municipios alejados de la capital sufren cierto grado de pobreza o un alto NBI
 
--   Se puede ver que en el departamento del Cauca hay un porcentaje que no es bajo de NBI si miramos todos los municipios ya que la mayoria de estos superan el 20%.
+- Se puede ver que en el departamento del Cauca hay un porcentaje que no es bajo de NBI si miramos todos los municipios ya que la mayoria de estos superan el 20%.
 
--   El análisis del IDF 2023 para los municipios del Cauca muestra una situación fiscal homogénea, con todos los municipios clasificados entre "riesgo" y "vulnerable". La media es 54.91 y la desviación estándar baja, lo que indica poca variabilidad. Ningún municipio alcanza niveles óptimos de desempeño fiscal. Esto evidencia limitaciones en la gestión financiera del departamento.
+- El análisis del IDF 2023 para los municipios del Cauca muestra una situación fiscal homogénea, con todos los municipios clasificados entre "riesgo" y "vulnerable". La media es 54.91 y la desviación estándar baja, lo que indica poca variabilidad. Ningún municipio alcanza niveles óptimos de desempeño fiscal. Esto evidencia limitaciones en la gestión financiera del departamento.
+
+- El análisis espacial de las distancias a la capital del departamento permitió identificar una clara variación territorial en la accesibilidad hacia Popayán. La mayoría de los municipios se encuentran a distancias moderadas (entre 50 y 150 km), concentrándose en el centro y norte del Cauca. Sin embargo, municipios ubicados en zonas periféricas, especialmente al sur, como Piamonte, presentan distancias significativamente mayores, superando los 300 km. Estos resultados evidencian la necesidad de mejorar la conectividad en regiones apartadas y pueden servir como insumo para la planeación territorial y el fortalecimiento de la infraestructura vial del departamento.
 
 # Recomendaciones
 
--   Hacer un estudio más riguroso sobre las posibles relaciones que existan entre estás variables para determinar si existe algún grado de correlación
+- Hacer un estudio más riguroso sobre las posibles relaciones que existan entre estás variables para determinar si existe algún grado de correlación.
+
+- Incluir tiempos de viaje reales además de las distancias en kilómetros.
+
+- Complementar el análisis con otras variables sociales (acceso a salud, educación, etc.).
+
+- Utilizar herramientas de análisis de redes viales o modelos de accesibilidad.
 
 # Cibergrafía
 
