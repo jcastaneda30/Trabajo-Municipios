@@ -31,6 +31,10 @@ El departamento del Cauca es una región de Colombia ubicada en el suroccidente 
 
 # Metodología y Procedimientos
 
+Para el desarrollo del análisis se utilizaron bases de datos externas, en su mayoría de fuentes oficiales. Las coordenadas geográficas de los municipios del departamento del Cauca fueron extraídas de un repositorio público disponible en Kaggle, en formato GeoJSON. Los indicadores utilizados —Índice de Necesidades Básicas Insatisfechas (NBI), el Índice de Desempeño Fiscal (IDF) y la distancia a la capital departamental— se obtuvieron de fuentes oficiales como el DANE, el Departamento Nacional de Planeación (DNP) y sitios especializados en cartografía y movilidad. En todos los casos se respetó la forma en que dichas entidades recolectaron, clasificaron y publicaron los datos, acogiendo sus criterios metodológicos.
+
+Se descargaron las distintas bases de datos en formato Excel, CSV y GeoJSON. Posteriormente, se cargaron en el entorno de RStudio y se procesaron mediante herramientas del paquete dplyr para limpieza y transformación de datos. Con el uso de operaciones de unión (left_join) se integraron los indicadores al mapa base del Cauca, permitiendo así la visualización espacial mediante ggplot2. Este procedimiento permitió representar gráficamente los niveles del IDF y otros indicadores clave por municipio, facilitando su análisis comparativo y geográfico.
+
 # Mapas
 
 ## Mapa del departamento
@@ -237,6 +241,8 @@ Se observa que los municipios más cercanos, ubicados en el centro del departame
 
 -   Se puede ver que en el departamento del Cauca hay un porcentaje que no es bajo de NBI si miramos todos los municipios ya que la mayoria de estos superan el 20%.
 
+-   El análisis del IDF 2023 para los municipios del Cauca muestra una situación fiscal homogénea, con todos los municipios clasificados entre "riesgo" y "vulnerable". La media es 54.91 y la desviación estándar baja, lo que indica poca variabilidad. Ningún municipio alcanza niveles óptimos de desempeño fiscal. Esto evidencia limitaciones en la gestión financiera del departamento.
+
 # Recomendaciones
 
 -   Hacer un estudio más riguroso sobre las posibles relaciones que existan entre estás variables para determinar si existe algún grado de correlación
@@ -250,3 +256,7 @@ Mejores Rutas. Calculadora de distancia de conducción en Cauca. Recuperado de <
 Necesidades Básicas Insatisfechas (NBI)(2018). Recuperado de <https://www.dane.gov.co/index.php/estadisticas-por-tema/pobreza-y-condiciones-de-vida/necesidades-basicas-insatisfechas-nbi>
 
 Kaggle. Colombia GeoJSON municipios. Recuperado de <https://www.kaggle.com/datasets/alfredomaussa/colombia-geojson-municipios>
+
+Departamento Nacional de Planeación – DNP. (2023). Información fiscal y financiera. Recuperado de: <https://www.dnp.gov.co/LaEntidad_/subdireccion-general-descentralizacion-desarrollo-territorial/direccion-descentralizacion-fortalecimiento-fiscal/Paginas/informacion-fiscal-y-financiera.aspx>
+
+
