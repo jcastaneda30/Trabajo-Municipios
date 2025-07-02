@@ -87,7 +87,20 @@ ggplot(geo_json_with_nbi) +
 
 ```
 
-## Índice del desempeño fiscal
+## Índice de desempeño fiscal
+
+El Índice de Desempeño Fiscal (IDF) de un municipio es una herramienta que mide la gestión financiera de una entidad territorial (municipio o departamento) en Colombia, evaluando su capacidad para generar ingresos propios, manejar sus deudas, invertir eficientemente y cumplir con las normativas fiscales. En esencia, refleja qué tan bien un municipio administra sus recursos económicos.
+
+Para el ejercicio, nos vamos a enfocar en los municipios del departamento del Cauca, los datos se obtuvieron de la página web del Departamento Nacional de Planeación
+de Colombia, <https://www.dnp.gov.co/LaEntidad_/subdireccion-general-descentralizacion-desarrollo-territorial/direccion-descentralizacion-fortalecimiento-fiscal/Paginas/informacion-fiscal-y-financiera.aspx> actualizado al año 2023.
+
+El mapa muestra la clasificación de cada municipio del Cauca en base a su índice de desempeño fiscal. En la documentación oficial la clasificación está definida así:
+
+- 1. Deterioro (<40)
+- 2. Riesgo (>=40 y <60)
+- 3. Vulnerable (>=60 y <70)
+- 4. Solvente (>=70 y <80)
+- 5. Sostenible (>=80)
 
 ```{r}
 idf_data <- read_excel("ResultadosIDF_2023.xlsx", sheet = "Municipios 2023")
@@ -118,6 +131,43 @@ ggplot(geo_json_with_idf) +
 
 
 ```
+El mapa anterior nos da un vistazo general de las condiciones del departamento del Cauca respecto al IDF, lo primero que se ve es que
+hay cierta homogeneidad, pues solo hay municipios de dos tipos, en riesgo y vulnerables. Premisa que nos lleva a pensar que el Cauca
+tiene ciertas limitaciones ecónomicas en sus municipios y no muestran un buen desempeño en los parámetros utilizados para calcular el IDF.
+
+Vamos a hacer un análisis más profundo:
+
+```{r}
+summary(idf_reducido$`Nuevo IDF`)
+```
+
+Se puede ver que la media del IDF de todos los municipios es de 54.91, hay un valor
+máximo de 69.46 y un valor mínimo de 41.65.
+
+Ahora miremos la desviación estándar:
+
+```{r}
+sd(idf_reducido$`Nuevo IDF`)
+```
+
+La desviación estándar es baja, lo que reafirma la afirmación de que en cuanto al IDF el departamento del Cauca es muy homogéneo.
+
+Estos son los cincos municipios con más alto IDF:
+
+```{r}
+top5 <- idf_reducido[order(-idf_reducido$`Nuevo IDF`), ][1:5, ]
+print(top5)
+```
+El municipio Lopez De Micay tiene el índice de desempeño fiscal más alto del departamento.
+
+Estos son los cincos municipios con más bajo IDF:
+
+```{r}
+top5_bajo <- idf_reducido[order(idf_reducido$`Nuevo IDF`), ][1:5, ]
+print(top5_bajo)
+```
+El municipio de Silvia tiene el IDF más bajo y se encuentra en el límite a
+convertirse un municipio en deteriorio. (menor a 40).
 
 ## Distancia a la capital
 
