@@ -17,6 +17,8 @@ execute:
 
 # Introducción
 
+El departamento del Cauca es una región de Colombia ubicada en el suroccidente del país, reconocida por su diversidad geográfica, cultural y étnica. Sin embargo, también enfrenta marcadas desigualdades sociales, económicas y de infraestructura entre sus municipios. Este informe presenta un análisis visual de tres variables clave: la distribución de la pobreza, el índice de desempeño fiscal y la distancia por carretera a su capital, Popayán. A través de mapas temáticos, se busca evidenciar estas diferencias territoriales y aportar elementos para una mejor comprensión del contexto regional.
+
 # Objetivos
 
 -   **Identificación de brechas territoriales:** Detectar diferencias en las condiciones de vida entre municipios del Cauca según el NBI y su ubicación respecto a la capital.
