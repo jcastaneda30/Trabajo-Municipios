@@ -177,7 +177,13 @@ Se observa que los municipios más cercanos, ubicados en el centro del departame
 
 # Conclusiones
 
+-   Se puede ver que varios de los municipios alejados de la capital sufren cierto grado de pobreza o un alto NBI
+
+-   Se puede ver que en el departamento del Cauca hay un porcentaje que no es bajo de NBI si miramos todos los municipios ya que la mayoria de estos superan el 20%.
+
 # Recomendaciones
+
+-   Hacer un estudio más riguroso sobre las posibles relaciones que existan entre estás variables para determinar si existe algún grado de correlación
 
 # Cibergrafía
 
