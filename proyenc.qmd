@@ -194,3 +194,5 @@ OpenAI. (2025). ChatGPT \[Modelo de lenguaje AI\]. Recuperado de <https://chat.o
 Mejores Rutas. Calculadora de distancia de conducción en Cauca. Recuperado de <https://colombia.mejoresrutas.com/tabla-de-distancias/co-cauca/>
 
 Necesidades Básicas Insatisfechas (NBI)(2018). Recuperado de <https://www.dane.gov.co/index.php/estadisticas-por-tema/pobreza-y-condiciones-de-vida/necesidades-basicas-insatisfechas-nbi>
+
+Kaggle. Colombia GeoJSON municipios. Recuperado de <https://www.kaggle.com/datasets/alfredomaussa/colombia-geojson-municipios>
